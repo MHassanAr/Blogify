@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { BlogCard } from "../../components/blog-card/blog-card";
+import { HeroSection } from "../../components/hero-section/hero-section";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [BlogCard],
+  imports: [BlogCard, HeroSection],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
