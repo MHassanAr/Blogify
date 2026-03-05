@@ -1,0 +1,23 @@
+<div class="border rounded-xl shadow-md bg-[#E1D9BC] overflow-hidden hover:shadow-lg transition duration-300">
+
+    <!-- Image -->
+    <img [src]="imageUrl" class="w-full h-48 object-cover" />
+
+    <!-- Content -->
+    <div class="p-5">
+
+        <h2 class="text-lg font-bold mb-2">
+            {{ title }}
+        </h2>
+
+        <p class="text-gray-600 text-sm line-clamp-3">
+            {{ description }}
+        </p>
+
+        <div class="mt-4 text-blue-600 font-semibold cursor-pointer">
+            Read More →
+        </div>
+
+    </div>
+
+</div>

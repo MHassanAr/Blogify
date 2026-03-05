@@ -1,0 +1,11 @@
+<div class="mb-4">
+
+    <label class="block font-medium mb-2">
+        {{ label }}
+    </label>
+
+    <textarea [(ngModel)]="value" (ngModelChange)="onChange($event)" (blur)="onTouched()" [placeholder]="placeholder"
+        [rows]="rows" class="w-full border p-3 rounded focus:ring-2 focus:outline-none">
+  </textarea>
+
+</div>

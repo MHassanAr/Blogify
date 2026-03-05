@@ -1,0 +1,53 @@
+import { Component } from '@angular/core';
+import { BlogService } from '../../services/blog';
+import { Router } from '@angular/router';
+import { Blog } from '../../models/blog.model';
+import { FormsModule } from '@angular/forms';
+import { BaseInput } from '../../components/base-input/base-input';
+import { Textarea } from '../../components/textarea/textarea';
+import { ImageInput } from '../../components/image-input/image-input';
+import { Button } from '../../components/button/button';
+
+@Component({
+  selector: 'app-create-post',
+  imports: [FormsModule, BaseInput, Textarea, ImageInput, Button],
+  templateUrl: './create-post.html',
+  styleUrl: './create-post.css',
+})
+export class CreatePost {
+
+  title = '';
+  image = '';
+  description = '';
+
+  constructor(
+    private blogService: BlogService,
+    private router: Router
+  ) { }
+
+  onImageSelected(file: File | null) {
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.image = reader.result as string;
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  submitPost() {
+
+    const newBlog: Blog = {
+      id: Date.now(),
+      title: this.title,
+      imageUrl: this.image,
+      description: this.description
+    };
+
+    this.blogService.addBlog(newBlog);
+
+    this.router.navigate(['/dashboard']);
+  }
+}

@@ -1,0 +1,29 @@
+<div class="min-h-screen bg-[#F0F0DB] flex items-center justify-center p-6">
+
+    <div class="w-full max-w-xl bg-[#E1D9BC] p-8 rounded-2xl shadow-lg">
+
+        <h2 class="text-3xl font-bold text-[#30364F] mb-8 text-center">
+            Create Blog Post
+        </h2>
+
+        <!-- Title Input -->
+        <app-base-input label="Blog Title" placeholder="Enter blog title" [(ngModel)]="title">
+        </app-base-input>
+
+        <!-- Image Upload -->
+        <app-image-input label="Upload Blog Image" (fileSelected)="onImageSelected($event)">
+        </app-image-input>
+
+        <!-- Blog Content -->
+        <app-textarea label="Blog Content" placeholder="Write your blog content" [(ngModel)]="description">
+        </app-textarea>
+
+        <!-- Publish Button -->
+        <div class="mt-6">
+            <app-button text="Publish" (clickEvent)="submitPost()">
+            </app-button>
+        </div>
+
+    </div>
+
+</div>
