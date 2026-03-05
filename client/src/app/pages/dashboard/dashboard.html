@@ -4,7 +4,7 @@
     <div class="grid md:grid-cols-3 gap-6">
 
         @for (blog of blogs; track blog.id) {
-        <app-blog-card [title]="blog.title" [description]="blog.description" [imageUrl]="blog.image"></app-blog-card>
+        <app-blog-card [title]="blog.title" [description]="blog.description" [imageUrl]="blog.imageUrl"></app-blog-card>
         }
 
     </div>
