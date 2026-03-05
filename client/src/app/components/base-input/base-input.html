@@ -1,0 +1,10 @@
+<div class="mb-4">
+
+    <label class="block font-medium mb-2">
+        {{ label }}
+    </label>
+
+    <input [type]="type" [(ngModel)]="value" (ngModelChange)="onChange($event)" (blur)="onTouched()"
+        [placeholder]="placeholder" class="w-full border p-3 rounded focus:ring-2 focus:outline-none" />
+
+</div>
