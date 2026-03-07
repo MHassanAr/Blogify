@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Blog } from '../models/blog.model';
 
 @Injectable({
@@ -6,14 +8,16 @@ import { Blog } from '../models/blog.model';
 })
 export class BlogService {
 
-  private blogs: Blog[] = [];
+  private apiUrl = 'http://localhost:8000';
 
-  getBlogs(): Blog[] {
-    return this.blogs;
+  constructor(private http: HttpClient) { }
+
+  getBlogs(): Observable<Blog[]> {
+    return this.http.get<Blog[]>(`${this.apiUrl}/posts`);
   }
 
-  addBlog(blog: Blog) {
-    this.blogs.push(blog);
+  addBlog(blog: Blog): Observable<any> {
+    return this.http.post(`${this.apiUrl}/posts`, blog);
   }
 
 }

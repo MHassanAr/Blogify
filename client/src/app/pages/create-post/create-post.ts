@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { BlogService } from '../../services/blog';
 import { Router } from '@angular/router';
-import { Blog } from '../../models/blog.model';
 import { FormsModule } from '@angular/forms';
 import { BaseInput } from '../../components/base-input/base-input';
 import { Textarea } from '../../components/textarea/textarea';
@@ -39,15 +38,23 @@ export class CreatePost {
 
   submitPost() {
 
-    const newBlog: Blog = {
-      id: Date.now(),
+    const newBlog = {
       title: this.title,
-      imageUrl: this.image,
-      description: this.description
+      description: this.description,
+      imageUrl: this.image
     };
 
-    this.blogService.addBlog(newBlog);
+    this.blogService.addBlog(newBlog).subscribe({
+      next: (res) => {
+        console.log('Post created:', res);
 
-    this.router.navigate(['/dashboard']);
+        // redirect after successful save
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Error creating post:', err);
+      }
+    });
+
   }
 }
