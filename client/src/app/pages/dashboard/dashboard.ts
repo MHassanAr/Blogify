@@ -16,6 +16,13 @@ export class Dashboard {
   constructor(private blogService: BlogService) { }
 
   ngOnInit() {
-    this.blogs = this.blogService.getBlogs();
+    this.blogService.getBlogs().subscribe({
+      next: (data) => {
+        this.blogs = data;
+      },
+      error: (err) => {
+        console.error(err)
+      }
+    })
   }
 }
