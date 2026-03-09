@@ -47,8 +47,6 @@ export class CreatePost {
     this.blogService.addBlog(newBlog).subscribe({
       next: (res) => {
         console.log('Post created:', res);
-
-        // redirect after successful save
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
