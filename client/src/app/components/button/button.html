@@ -1,11 +1,9 @@
-<button (click)="handleClick()" [disabled]="loading || disabled"
-    class="bg-slate-900 text-white px-6 py-3 rounded hover:bg-slate-700 w-full">
+<button (click)="handleClick()" [disabled]="loading || disabled" [class]="class">
 
-    @if (!loading) {
-    <span>{{ text }}</span>
-    }
     @if (loading) {
     <span>Processing...</span>
     }
-
+    @if (!loading) {
+    <span>{{ text }}</span>
+    }
 </button>
