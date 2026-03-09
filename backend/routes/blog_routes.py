@@ -18,16 +18,18 @@ def create_post(post: BlogPost):
     result = collection.insert_one(blog)
 
     return {
-        "message": "Post created successfully",
-        "id": str(result.inserted_id)
-    }
+        "id": str(result.inserted_id),
+        "title": blog["title"],
+        "description": blog["description"],
+        "imageUrl": blog["imageUrl"]
+        }
 
 #Get all Posts
 @router.get("/posts")
 def get_posts():
 
     posts = []
-    for post in collection.find():
+    for post in collection.find().sort("created_at", -1):
         posts.append({
             "id": str(post["_id"]),
             "title": post["title"],

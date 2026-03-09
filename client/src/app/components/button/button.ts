@@ -10,6 +10,7 @@ export class Button {
   @Input() text = '';
   @Input() loading = false;
   @Input() disabled = false;
+  @Input() class = '';
 
   @Output() clickEvent = new EventEmitter<void>();
 

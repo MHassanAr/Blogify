@@ -1,23 +1,24 @@
-<div class="border rounded-xl shadow-md bg-[#E1D9BC] overflow-hidden hover:shadow-lg transition duration-300">
+<div
+    class="flex flex-col h-[22rem] border rounded-xl shadow-md bg-[#E1D9BC] overflow-hidden hover:shadow-lg transition duration-300">
 
-    <!-- Image -->
-    <img [src]="imageUrl" class="w-full h-48 object-cover" />
+    <!-- Image Section -->
+    <div class="h-48">
+        <img [src]="imageUrl" class="w-full h-full object-cover" />
+    </div>
 
-    <!-- Content -->
-    <div class="p-5">
+    <!-- Title Section -->
+    <div class="p-4 flex-shrink-0">
+        <h2 class="text-lg font-bold mb-2">{{ title }}</h2>
+    </div>
 
-        <h2 class="text-lg font-bold mb-2">
-            {{ title }}
-        </h2>
+    <!-- Description Section -->
+    <div class="p-4 flex-1 overflow-hidden">
+        <p class="text-gray-600 text-sm line-clamp-3">{{ description }}</p>
+    </div>
 
-        <p class="text-gray-600 text-sm line-clamp-3">
-            {{ description }}
-        </p>
-
-        <div class="mt-4 text-blue-600 font-semibold cursor-pointer">
-            Read More →
-        </div>
-
+    <!-- Read More -->
+    <div class="p-4 mt-auto text-[#30364F] font-semibold cursor-pointer hover:text-[#261CC1]" (click)="readMore.emit()">
+        Read More →
     </div>
 
 </div>
