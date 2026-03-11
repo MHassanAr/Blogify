@@ -1,6 +1,5 @@
 <div
-    class="flex flex-col h-[22rem] border rounded-xl shadow-md bg-[#E1D9BC] overflow-hidden hover:shadow-lg transition duration-300">
-
+    class="relative flex flex-col h-[25rem] border rounded-xl shadow-md bg-[#E1D9BC] overflow-hidden hover:shadow-lg transition duration-300">
     <!-- Image Section -->
     <div class="h-48">
         <img [src]="imageUrl" class="w-full h-full object-cover" />
@@ -17,8 +16,11 @@
     </div>
 
     <!-- Read More -->
-    <div class="p-4 mt-auto text-[#30364F] font-semibold cursor-pointer hover:text-[#261CC1]" (click)="readMore.emit()">
+    <div class="p-4 mt-auto text-[#30364F] font-semibold cursor-pointer hover:text-[#261CC1]" (click)="readMore.emit()"
+        style="z-index:0;">
         Read More →
     </div>
+
+    <ng-content></ng-content>
 
 </div>

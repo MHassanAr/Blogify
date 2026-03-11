@@ -1,9 +1,6 @@
-<button (click)="handleClick()" [disabled]="loading || disabled" [class]="class">
-
-    @if (loading) {
-    <span>Processing...</span>
-    }
+<button type="button" (click)="handleClick()" [disabled]="loading || disabled" [class]="class">
+    @if (loading) { <span>Processing...</span> }
     @if (!loading) {
-    <span>{{ text }}</span>
+    @if (text) { <span>{{ text }}</span> } @else { <ng-content></ng-content> }
     }
 </button>
