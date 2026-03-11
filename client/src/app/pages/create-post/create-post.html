@@ -3,7 +3,7 @@
     <div class="w-full max-w-xl bg-[#E1D9BC] p-8 rounded-2xl shadow-lg">
 
         <h2 class="text-3xl font-bold text-[#30364F] mb-8 text-center">
-            Create Blog Post
+            {{ isEditMode ? 'Edit Blog Post' : 'Create Blog Post' }}
         </h2>
 
         <!-- Title Input -->
@@ -20,7 +20,9 @@
 
         <!-- Publish Button -->
         <div class="mt-6">
-            <app-button text="Publish" (clickEvent)="submitPost()">
+            <app-button [text]="isEditMode ? 'Save Changes' : 'Publish'" [class]="isEditMode 
+            ? 'bg-[#005F02] hover:bg-[#427A43] text-white px-4 py-2 rounded w-full' 
+            : 'bg-[#30364f] hover:bg-[#355872] text-white px-4 py-2 rounded w-full'" (clickEvent)="submitPost()">
             </app-button>
         </div>
 
