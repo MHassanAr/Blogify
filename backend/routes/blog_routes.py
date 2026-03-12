@@ -28,10 +28,15 @@ def create_post(post: BlogPost):
 
 # Get all Posts
 @router.get("/posts")
-def get_posts():
+def get_posts(limit: int | None = None):
 
     posts = []
-    for post in collection.find().sort("created_at", -1):
+    query = collection.find().sort("created_at", -1)
+
+    if limit:
+        query = query.limit(limit)
+
+    for post in query:
         posts.append({
             "id": str(post["_id"]),
             "title": post["title"],

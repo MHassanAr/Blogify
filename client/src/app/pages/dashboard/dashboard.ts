@@ -6,10 +6,11 @@ import { BlogService } from '../../services/blog';
 import { CommonModule } from '@angular/common';
 import { Button } from '../../components/button/button';
 import { Router } from '@angular/router';
+import { BlogModal } from '../../components/blog-modal/blog-modal';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, BlogCard, HeroSection, Button],
+  imports: [CommonModule, BlogCard, HeroSection, Button, BlogModal],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -20,6 +21,7 @@ export class Dashboard {
   constructor(private blogService: BlogService, private router: Router) { }
 
   ngOnInit() {
+    this.blogService.fetchLimitedBlogs(10);
     this.blogService.blogs$.subscribe({
       next: (data) => (this.blogs = data),
       error: (err) => console.error(err),
@@ -39,18 +41,8 @@ export class Dashboard {
   }
 
   deleteBlog(id: string) {
-    // instant UI update
-    this.blogs = this.blogs.filter((b) => String(b.id) !== String(id));
-    // close modal if it was the deleted one
-    if (this.selectedBlog && String(this.selectedBlog.id) === String(id)) {
-      this.selectedBlog = null;
-    }
-
-    this.blogService.deleteBlog(id).subscribe({
-      next: () => console.log('Deleted blog', id),
-      error: (err) => {
-        console.error(err);
-      },
-    });
+    this.blogService.deleteBlog(id).subscribe();
+    this.blogs = this.blogs.filter((b) => b.id !== id);
+    if (this.selectedBlog?.id === id) this.selectedBlog = null;
   }
 }

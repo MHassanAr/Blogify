@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { CreatePost } from './pages/create-post/create-post';
+import { AllBlogs } from './pages/all-blogs/all-blogs';
 
 export const routes: Routes = [
     {
@@ -19,5 +20,9 @@ export const routes: Routes = [
     {
         path: 'edit-post/:id',
         component: CreatePost
+    },
+    {
+        path: 'read-blogs',
+        component: AllBlogs
     }
 ];
