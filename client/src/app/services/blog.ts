@@ -31,11 +31,11 @@ export class BlogService {
     );
   }
 
-  updateBlog(id: string, blog: Partial<Blog>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/posts/${id}`, blog).pipe(
-      tap(() => {
+  updateBlog(id: string, blog: Partial<Blog>): Observable<Blog> {
+    return this.http.put<Blog>(`${this.apiUrl}/posts/${id}`, blog).pipe(
+      tap((updatedBlog) => {
         const updated = this.blogsSubject.value.map((b) =>
-          b.id === id ? ({ ...b, ...blog } as Blog) : b
+          String(b.id) === String(id) ? updatedBlog : b
         );
         this.blogsSubject.next(updated);
       })

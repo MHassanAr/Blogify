@@ -4,4 +4,9 @@ class BlogPost(BaseModel):
     title: str
     description: str
     imageUrl: str
-    
+
+class BlogPostResponse(BaseModel):
+    id: str
+    title: str
+    description: str
+    imageUrl: str
