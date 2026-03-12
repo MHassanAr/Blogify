@@ -3,11 +3,13 @@ from database import collection
 from models import BlogPost
 from datetime import datetime, timezone
 from bson import ObjectId
+from models import BlogPostResponse
+from typing import List
 
 router = APIRouter()
 
 # Create Post API
-@router.post("/posts")
+@router.post("/posts", response_model=BlogPostResponse)
 def create_post(post: BlogPost):
 
     blog = {
@@ -27,7 +29,7 @@ def create_post(post: BlogPost):
         }
 
 # Get all Posts
-@router.get("/posts")
+@router.get("/posts", response_model=List[BlogPostResponse])
 def get_posts(limit: int | None = None):
 
     posts = []
@@ -47,21 +49,23 @@ def get_posts(limit: int | None = None):
     return posts
 
 # Update Post
-@router.put("/posts/{post_id}")
+@router.put("/posts/{post_id}", response_model=BlogPostResponse)
 def update_post(post_id: str, post: BlogPost):
-
     update_post = {
         "title": post.title,
         "description": post.description,
         "imageUrl": post.imageUrl
     }
 
-    collection.update_one(
-        {"_id": ObjectId(post_id)},
-        {"$set": update_post}
-    )
+    collection.update_one({"_id": ObjectId(post_id)}, {"$set": update_post})
+    updated_blog = collection.find_one({"_id": ObjectId(post_id)})
 
-    return {"message": "Post updated!"}
+    return {
+        "id": str(updated_blog["_id"]),
+        "title": updated_blog["title"],
+        "description": updated_blog["description"],
+        "imageUrl": updated_blog["imageUrl"]
+    }
 
 # Delete Post
 @router.delete("/posts/{post_id}")
