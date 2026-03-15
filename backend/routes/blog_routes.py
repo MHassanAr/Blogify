@@ -5,12 +5,14 @@ from datetime import datetime, timezone
 from bson import ObjectId
 from models import BlogPostResponse
 from typing import List
+from auth.auth_handler import verify_admin
+from fastapi import Depends
 
 router = APIRouter()
 
 # Create Post API
 @router.post("/posts", response_model=BlogPostResponse)
-def create_post(post: BlogPost):
+def create_post(post: BlogPost, admin=Depends(verify_admin)):
 
     blog = {
         "title": post.title,
@@ -50,7 +52,7 @@ def get_posts(limit: int | None = None):
 
 # Update Post
 @router.put("/posts/{post_id}", response_model=BlogPostResponse)
-def update_post(post_id: str, post: BlogPost):
+def update_post(post_id: str, post: BlogPost, admin=Depends(verify_admin)):
     update_post = {
         "title": post.title,
         "description": post.description,
@@ -69,7 +71,7 @@ def update_post(post_id: str, post: BlogPost):
 
 # Delete Post
 @router.delete("/posts/{post_id}")
-def delete_post(post_id: str):
+def delete_post(post_id: str, admin=Depends(verify_admin)):
 
     result = collection.delete_one({"_id": ObjectId(post_id)})
 

@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.blog_routes import router
+from routes.blog_routes import router as blog_router
+from routes.user_routes import router as user_router
 
 app = FastAPI()
 
-# Allow Angular frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,7 +13,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.include_router(router)
+app.include_router(blog_router)
+app.include_router(user_router)
 
 @app.get("/")
 def home():
