@@ -9,7 +9,13 @@ export class BlogService {
   private blogsSubject = new BehaviorSubject<Blog[]>([]);
   blogs$ = this.blogsSubject.asObservable();
 
+  private authToken: string | null = null;
+
   constructor(private http: HttpClient) { }
+
+  setAuthToken(token: string) {
+    this.authToken = token;
+  }
 
   fetchBlogs() {
     this.http.get<Blog[]>(`${this.apiUrl}/posts`).subscribe({
