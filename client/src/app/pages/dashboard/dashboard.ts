@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Button } from '../../components/button/button';
 import { Router } from '@angular/router';
 import { BlogModal } from '../../components/blog-modal/blog-modal';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,7 @@ export class Dashboard {
   blogs: Blog[] = [];
   selectedBlog: Blog | null = null;
 
-  constructor(private blogService: BlogService, private router: Router) { }
+  constructor(private blogService: BlogService, private router: Router, public auth: Auth) { }
 
   ngOnInit() {
     this.blogService.fetchLimitedBlogs(10);
@@ -41,8 +42,12 @@ export class Dashboard {
   }
 
   deleteBlog(id: string) {
-    this.blogService.deleteBlog(id).subscribe();
-    this.blogs = this.blogs.filter((b) => b.id !== id);
-    if (this.selectedBlog?.id === id) this.selectedBlog = null;
+    this.blogService.deleteBlog(id).subscribe({
+      next: () => {
+        this.blogs = this.blogs.filter((b) => b.id !== id);
+        if (this.selectedBlog?.id === id) this.selectedBlog = null;
+      },
+      error: (err) => console.error(err),
+    });
   }
 }

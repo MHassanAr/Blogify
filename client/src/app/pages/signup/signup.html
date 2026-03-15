@@ -1,0 +1,30 @@
+<div class="min-h-screen bg-[#F0F0DB] flex items-center justify-center p-6">
+    <div class="w-full max-w-md bg-[#E1D9BC] p-8 rounded-2xl shadow-lg">
+        <h2 class="text-3xl font-bold text-[#30364F] mb-6 text-center">Sign Up</h2>
+
+        <form (ngSubmit)="submit()" #f="ngForm">
+            <label class="block text-[#30364F] font-semibold mb-2">User name</label>
+            <input class="w-full p-3 rounded mb-4" type="text" name="userName" [(ngModel)]="userName" required />
+
+            <label class="block text-[#30364F] font-semibold mb-2">Email</label>
+            <input class="w-full p-3 rounded mb-4" type="email" name="email" [(ngModel)]="email" required />
+
+            <label class="block text-[#30364F] font-semibold mb-2">Password</label>
+            <input class="w-full p-3 rounded mb-4" type="password" name="password" [(ngModel)]="password" required />
+
+            <div *ngIf="error" class="mb-4 text-red-700 font-semibold">
+                {{ error }}
+            </div>
+
+            <button type="submit" class="w-full bg-[#30364f] hover:bg-[#355872] text-white px-4 py-2 rounded"
+                [disabled]="f.invalid">
+                Create account
+            </button>
+        </form>
+
+        <p class="mt-4 text-center text-[#30364F]">
+            Already have an account?
+            <a class="underline" routerLink="/login">Login</a>
+        </p>
+    </div>
+</div>
