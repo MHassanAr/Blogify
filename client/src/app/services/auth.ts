@@ -26,9 +26,9 @@ export class Auth {
   constructor(private http: HttpClient) {
     if (!this.isBrowser) return;
 
-    const token = localStorage.getItem('access_token');
-    const role = localStorage.getItem('role') as Role | null;
-    const userRaw = localStorage.getItem('user');
+    const token = sessionStorage.getItem('access_token');
+    const role = sessionStorage.getItem('role') as Role | null;
+    const userRaw = sessionStorage.getItem('user');
 
     this.tokenSubject.next(token);
     this.roleSubject.next(role);
@@ -54,9 +54,9 @@ export class Auth {
 
   logout(): void {
     if (this.isBrowser) {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('role');
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('role');
+      sessionStorage.removeItem('user');
     }
 
     this.tokenSubject.next(null);
@@ -79,9 +79,9 @@ export class Auth {
   private persistAuth(res: AuthResponse) {
 
     if (this.isBrowser) {
-      localStorage.setItem('access_token', res.access_token);
-      localStorage.setItem('role', res.role);
-      localStorage.setItem('user', JSON.stringify(res.user ?? null));
+      sessionStorage.setItem('access_token', res.access_token);
+      sessionStorage.setItem('role', res.role);
+      sessionStorage.setItem('user', JSON.stringify(res.user ?? null));
     }
 
     this.tokenSubject.next(res.access_token);

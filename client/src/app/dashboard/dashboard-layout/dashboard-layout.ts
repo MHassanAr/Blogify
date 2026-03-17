@@ -11,6 +11,7 @@ import { NavItem } from '../../models/navbar.model';
   styleUrl: './dashboard-layout.css',
 })
 export class DashboardLayout {
+  isMenuOpen = false;
   constructor(public auth: Auth, private router: Router) { }
 
   navItems: NavItem[] = [
