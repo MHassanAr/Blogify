@@ -1,0 +1,27 @@
+<div class="min-h-screen bg-[#F0F0DB] flex items-center justify-center p-4 sm:p-6">
+    <app-card title="Sign Up" class="w-full max-w-md sm:max-w-lg lg:max-w-md">
+        <form (ngSubmit)="submit()" #f="ngForm" class="space-y-4">
+            <app-base-input label="User name" type="text" placeholder="User name" name="userName" [(ngModel)]="userName"
+                required></app-base-input>
+
+            <app-base-input label="Email" type="email" placeholder="Email" name="email" [(ngModel)]="email"
+                required></app-base-input>
+
+            <app-base-input label="Password" type="password" placeholder="Password" name="password"
+                [(ngModel)]="password" required></app-base-input>
+
+            <div *ngIf="error" class="text-red-700 font-semibold">
+                {{ error }}
+            </div>
+
+            <app-button text="Create account"
+                [btnClass]="'w-full bg-[#30364f] hover:bg-[#355872] text-white px-4 py-2 rounded'"
+                (clickEvent)="submit()"></app-button>
+        </form>
+
+        <p class="mt-4 text-center text-[#30364F]">
+            Already have an account?
+            <a class="underline" routerLink="/login">Login</a>
+        </p>
+    </app-card>
+</div>

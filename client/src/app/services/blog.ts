@@ -9,31 +9,30 @@ export class BlogService {
   private blogsSubject = new BehaviorSubject<Blog[]>([]);
   blogs$ = this.blogsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.fetchBlogs();
-  }
+  constructor(private http: HttpClient) { }
 
-  private fetchBlogs() {
-    this.http.get<Blog[]>(`${this.apiUrl}/posts`).subscribe({
+  fetchBlogs(limit?: number) {
+    const url = limit ? `${this.apiUrl}/posts?limit=${limit}` : `${this.apiUrl}/posts`;
+    this.http.get<Blog[]>(url).subscribe({
       next: (data) => this.blogsSubject.next(data),
-      error: (err) => console.error(err),
+      error: console.error,
     });
   }
 
   addBlog(blog: Blog): Observable<Blog> {
     return this.http.post<Blog>(`${this.apiUrl}/posts`, blog).pipe(
       tap((newBlog) => {
-        const currentBlogs = this.blogsSubject.value;
-        this.blogsSubject.next([newBlog, ...currentBlogs]);
+        const updated = [newBlog, ...this.blogsSubject.value];
+        this.blogsSubject.next(updated);
       })
     );
   }
 
-  updateBlog(id: string, blog: Partial<Blog>) {
-    return this.http.put(`${this.apiUrl}/posts/${id}`, blog).pipe(
-      tap(() => {
+  updateBlog(id: string, blog: Partial<Blog>): Observable<Blog> {
+    return this.http.put<Blog>(`${this.apiUrl}/posts/${id}`, blog).pipe(
+      tap((updatedBlog) => {
         const updated = this.blogsSubject.value.map((b) =>
-          String(b.id) === String(id) ? ({ ...b, ...blog, id: b.id } as Blog) : b
+          b.id === id ? updatedBlog : b
         );
         this.blogsSubject.next(updated);
       })
@@ -43,9 +42,7 @@ export class BlogService {
   deleteBlog(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/posts/${id}`).pipe(
       tap(() => {
-        const updated = this.blogsSubject.value.filter(
-          (b) => String(b.id) !== String(id)
-        );
+        const updated = this.blogsSubject.value.filter((b) => b.id !== id);
         this.blogsSubject.next(updated);
       })
     );

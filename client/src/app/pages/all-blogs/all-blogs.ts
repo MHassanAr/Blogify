@@ -1,30 +1,34 @@
 import { Component } from '@angular/core';
-import { BlogService } from '../../services/blog';
+import { BlogCard } from '../../components/blog-card/blog-card';
 import { Blog } from '../../models/blog.model';
+import { BlogService } from '../../services/blog';
+import { BlogModal } from '../../components/blog-modal/blog-modal';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
-import { CommonModule } from '@angular/common';
-import { BlogCard } from '../../components/blog-card/blog-card';
-import { HeroSection } from '../../components/hero-section/hero-section';
 import { Button } from '../../components/button/button';
-import { BlogModal } from '../../components/blog-modal/blog-modal';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [CommonModule, BlogCard, HeroSection, Button, BlogModal],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  selector: 'app-all-blogs',
+  imports: [CommonModule, BlogCard, BlogModal, Button],
+  templateUrl: './all-blogs.html',
+  styleUrl: './all-blogs.css',
 })
-export class Dashboard {
+export class AllBlogs {
+
   blogs$!: Observable<Blog[]>;
   selectedBlog: Blog | null = null;
 
-  constructor(private blogService: BlogService, private router: Router, public auth: Auth) { }
+  constructor(
+    private blogService: BlogService,
+    private router: Router,
+    public auth: Auth
+  ) { }
 
   ngOnInit() {
     this.blogs$ = this.blogService.blogs$;
-    this.blogService.fetchBlogs(10);
+    this.blogService.fetchBlogs();
   }
 
   openBlog(blog: Blog) {
@@ -47,4 +51,5 @@ export class Dashboard {
       error: (err) => console.error(err),
     });
   }
+
 }

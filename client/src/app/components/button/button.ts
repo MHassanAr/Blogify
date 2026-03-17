@@ -10,11 +10,12 @@ export class Button {
   @Input() text = '';
   @Input() loading = false;
   @Input() disabled = false;
-  @Input() class = '';
+  @Input() btnClass = '';
 
   @Output() clickEvent = new EventEmitter<void>();
 
-  handleClick() {
+  handleClick(event: MouseEvent) {
+    event.stopPropagation();
     if (!this.loading && !this.disabled) {
       this.clickEvent.emit();
     }

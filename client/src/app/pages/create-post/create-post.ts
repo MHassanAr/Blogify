@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { BlogService } from '../../services/blog';
-import { Router, ActivatedRoute } from '@angular/router'; // CHANGE: import ActivatedRoute
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BaseInput } from '../../components/base-input/base-input';
 import { Textarea } from '../../components/textarea/textarea';
@@ -24,7 +24,9 @@ export class CreatePost {
   constructor(
     private blogService: BlogService,
     private router: Router,
-    private route: ActivatedRoute 
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -33,8 +35,10 @@ export class CreatePost {
       this.isEditMode = true;
       this.postId = id;
 
-      // Prefill from already-loaded blogs in BehaviorSubject (no backend GET-by-id needed)
-      const existing = this.blogService['blogsSubject'].value.find(b => String(b.id) === String(id));
+      const existing = this.blogService['blogsSubject'].value.find(
+        (b: any) => String(b.id) === String(id)
+      );
+
       if (existing) {
         this.title = existing.title;
         this.description = existing.description;
@@ -44,10 +48,20 @@ export class CreatePost {
   }
 
   onImageSelected(file: File | null) {
-    if (!file) return;
+    if (!file) {
+      this.image = '';
+      this.cdr.detectChanges();
+      return;
+    }
 
     const reader = new FileReader();
-    reader.onload = () => (this.image = reader.result as string);
+    reader.onload = () => {
+      // Ensure Angular sees this async update immediately
+      this.ngZone.run(() => {
+        this.image = reader.result as string;
+        this.cdr.detectChanges();
+      });
+    };
     reader.readAsDataURL(file);
   }
 
