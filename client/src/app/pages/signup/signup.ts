@@ -3,10 +3,13 @@ import { Auth } from '../../services/auth';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BaseInput } from '../../components/base-input/base-input';
+import { Button } from '../../components/button/button';
+import { Card } from '../../components/card/card';
 
 @Component({
   selector: 'app-signup',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, BaseInput, Button, Card],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
@@ -32,5 +35,4 @@ export class Signup {
       },
     });
   }
-
 }

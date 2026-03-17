@@ -9,23 +9,11 @@ export class BlogService {
   private blogsSubject = new BehaviorSubject<Blog[]>([]);
   blogs$ = this.blogsSubject.asObservable();
 
-  private authToken: string | null = null;
-
   constructor(private http: HttpClient) { }
 
-  setAuthToken(token: string) {
-    this.authToken = token;
-  }
-
-  fetchBlogs() {
-    this.http.get<Blog[]>(`${this.apiUrl}/posts`).subscribe({
-      next: (data) => this.blogsSubject.next(data),
-      error: console.error,
-    });
-  }
-
-  fetchLimitedBlogs(limit: number) {
-    this.http.get<Blog[]>(`${this.apiUrl}/posts?limit=${limit}`).subscribe({
+  fetchBlogs(limit?: number) {
+    const url = limit ? `${this.apiUrl}/posts?limit=${limit}` : `${this.apiUrl}/posts`;
+    this.http.get<Blog[]>(url).subscribe({
       next: (data) => this.blogsSubject.next(data),
       error: console.error,
     });
@@ -33,7 +21,10 @@ export class BlogService {
 
   addBlog(blog: Blog): Observable<Blog> {
     return this.http.post<Blog>(`${this.apiUrl}/posts`, blog).pipe(
-      tap((newBlog) => this.blogsSubject.next([newBlog, ...this.blogsSubject.value]))
+      tap((newBlog) => {
+        const updated = [newBlog, ...this.blogsSubject.value];
+        this.blogsSubject.next(updated);
+      })
     );
   }
 
@@ -41,7 +32,7 @@ export class BlogService {
     return this.http.put<Blog>(`${this.apiUrl}/posts/${id}`, blog).pipe(
       tap((updatedBlog) => {
         const updated = this.blogsSubject.value.map((b) =>
-          String(b.id) === String(id) ? updatedBlog : b
+          b.id === id ? updatedBlog : b
         );
         this.blogsSubject.next(updated);
       })
@@ -50,7 +41,10 @@ export class BlogService {
 
   deleteBlog(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/posts/${id}`).pipe(
-      tap(() => this.blogsSubject.next(this.blogsSubject.value.filter((b) => b.id !== id)))
+      tap(() => {
+        const updated = this.blogsSubject.value.filter((b) => b.id !== id);
+        this.blogsSubject.next(updated);
+      })
     );
   }
 }

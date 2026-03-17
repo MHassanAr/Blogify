@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../services/auth';
+import { BaseInput } from '../../components/base-input/base-input';
+import { Button } from '../../components/button/button';
+import { Card } from '../../components/card/card';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, BaseInput, Button, Card],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
